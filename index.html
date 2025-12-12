@@ -16,7 +16,10 @@
           <p class="lead">SearchWord • EmailCheck — monotone, professional UI</p>
         </div>
       </div>
-      <div class="small">Built for practice — includes() based checks</div>
+      <div class="header-actions">
+        <button id="theme-toggle" class="btn secondary" aria-pressed="false">Dark</button>
+        <div class="small">Built for practice</div>
+      </div>
     </header>
 
     <main>
@@ -176,6 +179,29 @@
       clearBtn.addEventListener('click', () => {
         emailEl.value = '';
         resultContainer.innerHTML = '';
+      });
+    })();
+
+    (function(){
+      const toggle = document.getElementById('theme-toggle');
+      const root = document.documentElement;
+      const KEY = 'mp-theme';
+      const applyTheme = theme => {
+        root.setAttribute('data-theme', theme);
+        toggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        toggle.setAttribute('aria-pressed', theme === 'dark');
+      };
+      const stored = localStorage.getItem(KEY);
+      if (stored) applyTheme(stored);
+      else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme(prefersDark ? 'dark' : 'light');
+      }
+      toggle.addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem(KEY, next);
       });
     })();
   </script>
