@@ -5,8 +5,8 @@
   --muted:#9aa3ad;
   --accent:#2f3a45;
   --accent-2:#4b5563;
-  --btn-bg:#2f3a45
-  --btn-text: #ffffff; 
+  --btn-bg:#e5e7eb;
+  --btn-text:#1f2937;
   --glass:rgba(47,58,69,0.06);
   --success:#2b7a3b;
   --danger:#b64545;
@@ -23,8 +23,8 @@
   --muted:#9aa3ad;
   --accent:#e5e7eb;
   --accent-2:#c5ced6;
-  --btn-bg:#e5e7eb;
-  --btn-text:#1f2937;
+  --btn-bg:#2f3a45
+  --btn-text: #ffffff;
   --glass:rgba(255,255,255,0.03);
   --shadow:0 8px 26px rgba(2,6,12,0.6);
   --success:#2fb46a;
