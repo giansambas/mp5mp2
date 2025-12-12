@@ -148,6 +148,10 @@
         wordEl.value = '';
         resultContainer.innerHTML = '';
       });
+
+      wordEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); btn.click(); }
+      });
     })();
 
     (function(){
@@ -180,28 +184,42 @@
         emailEl.value = '';
         resultContainer.innerHTML = '';
       });
+
+      emailEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); btn.click(); }
+      });
     })();
 
     (function(){
       const toggle = document.getElementById('theme-toggle');
       const root = document.documentElement;
       const KEY = 'mp-theme';
+
       const applyTheme = theme => {
         root.setAttribute('data-theme', theme);
         toggle.textContent = theme === 'dark' ? 'Light' : 'Dark';
         toggle.setAttribute('aria-pressed', theme === 'dark');
       };
+
       const stored = localStorage.getItem(KEY);
-      if (stored) applyTheme(stored);
-      else {
+      if (stored === 'dark' || stored === 'light') {
+        applyTheme(stored);
+      } else {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         applyTheme(prefersDark ? 'dark' : 'light');
       }
+
       toggle.addEventListener('click', () => {
         const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         localStorage.setItem(KEY, next);
+      });
+
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        const storedPref = localStorage.getItem(KEY);
+        if (storedPref) return;
+        applyTheme(e.matches ? 'dark' : 'light');
       });
     })();
   </script>
