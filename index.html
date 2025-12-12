@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SearchWord & EmailCheck — Tools</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo">MP</div>
+        <div>
+          <h1>Machine Problems — Tools</h1>
+          <p class="lead">SearchWord • EmailCheck — monotone, professional UI</p>
+        </div>
+      </div>
+      <div class="small">Built for practice — includes() based checks</div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Machine Problem 2 — SearchWord</h2>
+        <p class="hint">Check if a word exists in the given sentence. Displays Found or Not Found.</p>
+
+        <div class="form-row column">
+          <label>Sentence (input)</label>
+          <textarea id="sentence" placeholder="e.g. JavaScript is easy"></textarea>
+          <div class="meta">You can paste or type a sentence here.</div>
+        </div>
+
+        <div class="form-row">
+          <div style="flex:1">
+            <label>Word to find</label>
+            <input id="word" type="text" placeholder="e.g. easy" />
+          </div>
+
+          <div style="width:150px;">
+            <label>Case sensitivity</label>
+            <select id="case">
+              <option value="insensitive" selected>Case-insensitive</option>
+              <option value="sensitive">Case-sensitive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="check-word">Check</button>
+          <button class="btn secondary" id="clear-word" type="button">Clear</button>
+          <div id="word-result"></div>
+        </div>
+
+        <div class="sample">
+          <div class="sample-row">
+            <div class="sample-cell sample-header">Input</div>
+            <div class="sample-cell sample-header">Output</div>
+          </div>
+          <div class="sample-row">
+            <div class="sample-cell">JavaScript is easy<br><strong>easy</strong></div>
+            <div class="sample-cell">Found</div>
+          </div>
+          <div class="sample-row">
+            <div class="sample-cell">Web Programming<br><strong>Java</strong></div>
+            <div class="sample-cell">Not Found</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Machine Problem 5 — EmailCheck</h2>
+        <p class="hint">Check if the input is a valid email (must contain @). Displays Valid or Invalid.</p>
+
+        <div class="form-row column">
+          <label>Email (input)</label>
+          <input id="email" type="email" placeholder="student@email.com" />
+        </div>
+
+        <div class="controls">
+          <button class="btn" id="check-email">Validate</button>
+          <button class="btn secondary" id="clear-email" type="button">Clear</button>
+          <div id="email-result"></div>
+        </div>
+
+        <div class="meta">Uses includes("@") for simple validation.</div>
+
+        <div class="sample">
+          <div class="sample-row">
+            <div class="sample-cell sample-header">Input</div>
+            <div class="sample-cell sample-header">Output</div>
+          </div>
+          <div class="sample-row">
+            <div class="sample-cell">student@email.com</div>
+            <div class="sample-cell">Valid</div>
+          </div>
+          <div class="sample-row">
+            <div class="sample-cell">studentemail.com</div>
+            <div class="sample-cell">Invalid</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="small">Tip: results are case-insensitive by default.</div>
+      <div class="small">© Practice Tools</div>
+    </footer>
+  </div>
+
+  <script>
+    const el = id => document.getElementById(id);
+    const showResult = (container, text, cls) => {
+      container.innerHTML = '';
+      const d = document.createElement('div');
+      d.className = 'result ' + cls;
+      d.textContent = text;
+      container.appendChild(d);
+    };
+
+    (function(){
+      const sentenceEl = el('sentence');
+      const wordEl = el('word');
+      const caseEl = el('case');
+      const btn = el('check-word');
+      const clearBtn = el('clear-word');
+      const resultContainer = el('word-result');
+
+      btn.addEventListener('click', () => {
+        const sentence = sentenceEl.value || '';
+        const word = (wordEl.value || '').trim();
+        if (!word) {
+          showResult(resultContainer, 'Enter a word', 'notfound');
+          return;
+        }
+        const sensitive = caseEl.value === 'sensitive';
+        const hay = sensitive ? sentence : sentence.toLowerCase();
+        const needle = sensitive ? word : word.toLowerCase();
+        const found = hay.includes(needle);
+        if (found) showResult(resultContainer, 'Found', 'found');
+        else showResult(resultContainer, 'Not Found', 'notfound');
+      });
+
+      clearBtn.addEventListener('click', () => {
+        sentenceEl.value = '';
+        wordEl.value = '';
+        resultContainer.innerHTML = '';
+      });
+    })();
+
+    (function(){
+      const emailEl = el('email');
+      const btn = el('check-email');
+      const clearBtn = el('clear-email');
+      const resultContainer = el('email-result');
+
+      btn.addEventListener('click', () => {
+        const email = (emailEl.value || '').trim();
+        if (!email) {
+          showResult(resultContainer, 'Enter an email', 'invalid');
+          return;
+        }
+        const hasAt = email.includes('@');
+        const parts = email.split('@');
+        let valid = false;
+        if (hasAt && parts.length === 2) {
+          const [local, domain] = parts;
+          if (local.length > 0 && domain.length > 2 && domain.includes('.')) {
+            const dotPos = domain.indexOf('.');
+            if (dotPos > 0 && dotPos < domain.length - 1) valid = true;
+          }
+        }
+        if (valid) showResult(resultContainer, 'Valid', 'valid');
+        else showResult(resultContainer, 'Invalid', 'invalid');
+      });
+
+      clearBtn.addEventListener('click', () => {
+        emailEl.value = '';
+        resultContainer.innerHTML = '';
+      });
+    })();
+  </script>
+</body>
+</html>
