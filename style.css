@@ -1,5 +1,6 @@
 :root{
   --bg:#f6f7f9;
+  --bg-2:#eef1f4;
   --panel:#ffffff;
   --muted:#9aa3ad;
   --accent:#2f3a45;
@@ -15,12 +16,13 @@
 
 :root[data-theme='dark']{
   --bg:#0f1720;
+  --bg-2:#071018;
   --panel:#0b1116;
   --muted:#9aa3ad;
   --accent:#dfe7ee;
   --accent-2:#c5ced6;
   --glass:rgba(255,255,255,0.03);
-  --shadow: 0 8px 26px rgba(2,6,12,0.6);
+  --shadow:0 8px 26px rgba(2,6,12,0.6);
   --success:#2fb46a;
   --danger:#f06b6b;
   color-scheme: dark;
@@ -30,7 +32,7 @@
 html,body{height:100%}
 body{
   margin:0;
-  background:linear-gradient(180deg,var(--bg),#eef1f4);
+  background:linear-gradient(180deg,var(--bg),var(--bg-2));
   color:var(--accent);
   padding:36px;
   display:flex;
@@ -74,6 +76,7 @@ input[type="text"],input[type="email"],textarea,select{
 :root[data-theme='dark'] input[type="text"],:root[data-theme='dark'] input[type="email"],:root[data-theme='dark'] textarea,:root[data-theme='dark'] select{
   border:1px solid rgba(255,255,255,0.04);
   background:linear-gradient(180deg,var(--panel),var(--panel));
+  color:var(--accent);
 }
 input:focus,textarea:focus,select:focus{
   box-shadow:0 6px 18px rgba(47,58,69,0.06);
@@ -88,6 +91,7 @@ textarea{min-height:92px}
 .btn.secondary{
   background:transparent;color:var(--accent-2);border:1px solid rgba(47,58,69,0.06);
 }
+.btn[aria-pressed="true"]{box-shadow:0 6px 18px rgba(0,0,0,0.12)}
 .result{margin-left:10px;padding:10px 12px;border-radius:10px;font-weight:700;min-width:120px;text-align:center;color:white}
 .result.found,.result.valid{background:var(--success)}
 .result.notfound,.result.invalid{background:var(--danger)}
